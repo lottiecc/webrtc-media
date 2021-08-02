@@ -19,4 +19,15 @@ navigator.mediaDevices.getUserMedia(mediaStreamConstrains)
 .then(gotLocalMediaStream)
 .catch(handleLocalMediaStreamError)
 
+if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+  console.log('enumerateDevices not supported.')
+}
 
+navigator.mediaDevices.enumerateDevices()
+.then(function (deviceInfos) {
+  deviceInfos.forEach(function (deviceInfo) {
+    console.log(deviceInfo.kind + ': ' + deviceInfo.label + ' id= ' + deviceInfo.deviceId)
+  })
+}).catch(function (err) {
+  console.log(err.name + ': ' + err.message)
+})
