@@ -1,11 +1,34 @@
 const mediaStreamConstrains = {
-  video: true,
+  video: {
+    width: 1280,
+    height: 720,
+    frameRate: 15,
+  },
   audio: true,
   echoCancellation: true,
   noiseSuppression: true,
 }
 
 const v = document.querySelector('video')
+const pic = document.getElementById('picture')
+pic.width = 640
+pic.height = 480
+
+setTimeout(() => {
+  pic.getContext('2d').drawImage(v, 0, 0, pic.width, pic.height)
+}, 1000)
+
+function download(url) {
+  const aTag = document.createElement('a')
+  aTag.download = 'photo'
+  aTag.href = url
+  aTag.click()
+  aTag.remove()
+}
+
+document.querySelector('#take-photo').onclick = function () {
+  download(pic.toDataURL('image/jpeg'))
+}
 
 function gotLocalMediaStream(mediaStream) {
   v.srcObject = mediaStream
